@@ -1,0 +1,21 @@
+{
+  "name": "desafio_teste_campo_minado",
+  "version": "1.0.0",
+  "description": "Casos de teste em JavaScript (Jest) para o jogo Campo Minado (tabuleiro 18x14 com 40 bombas)",
+  "main": "src/campoMinado.js",
+  "scripts": {
+    "test": "jest --verbose"
+  },
+  "keywords": [
+    "campo-minado",
+    "minesweeper",
+    "testes",
+    "jest",
+    "javascript"
+  ],
+  "author": "ViniciusRFerreira",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
