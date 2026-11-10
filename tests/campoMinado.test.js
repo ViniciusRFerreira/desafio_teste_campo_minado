@@ -178,5 +178,39 @@ describe('Campo Minado (Tabuleiro 18 x 14 com 40 Bombas) - Suíte de Casos de Te
       expect(jogo.celulasReveladas).toBe(212);
       expect(jogo.status).toBe('VITORIA');
     });
+
+    test('CT11 - Deve respeitar o limite máximo de 40 bandeiras, rejeitar a 41ª sem alterar o tabuleiro e permitir nova marcação após remover uma bandeira', () => {
+      const jogo = new CampoMinado();
+      jogo.definirPosicoesBombas(gerar40BombasNoFundo());
+
+      // Marca 40 células diferentes (linhas 0 e 1 inteiras = 28 células + 12 células da linha 2)
+      let marcadas = 0;
+      for (let l = 0; l < 3 && marcadas < 40; l++) {
+        for (let c = 0; c < 14 && marcadas < 40; c++) {
+          expect(jogo.alternarBandeira(l, c)).toBe(true);
+          expect(jogo.tabuleiro[l][c].comBandeira).toBe(true);
+          marcadas++;
+        }
+      }
+
+      expect(marcadas).toBe(40);
+      expect(jogo.bandeirasRestantes).toBe(0);
+
+      // Tenta marcar uma 41ª célula na posição (2, 12) e verifica rejeição
+      expect(() => jogo.alternarBandeira(2, 12)).toThrow('Limite máximo de 40 bandeiras atingido');
+
+      // Confirma que o estado do tabuleiro não foi alterado indevidamente
+      expect(jogo.tabuleiro[2][12].comBandeira).toBe(false);
+      expect(jogo.bandeirasRestantes).toBe(0);
+
+      // Remove uma bandeira existente em (0, 0) e verifica que é possível marcar (2, 12) novamente
+      expect(jogo.alternarBandeira(0, 0)).toBe(false);
+      expect(jogo.tabuleiro[0][0].comBandeira).toBe(false);
+      expect(jogo.bandeirasRestantes).toBe(1);
+
+      expect(jogo.alternarBandeira(2, 12)).toBe(true);
+      expect(jogo.tabuleiro[2][12].comBandeira).toBe(true);
+      expect(jogo.bandeirasRestantes).toBe(0);
+    });
   });
 });

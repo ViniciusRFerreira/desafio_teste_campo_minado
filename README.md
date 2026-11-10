@@ -25,7 +25,7 @@ Repositório contendo a implementação em JavaScript e a suíte de **casos de t
 
 ## 🧪 Funcionamento dos Casos de Teste (`tests/campoMinado.test.js`)
 
-A suíte conta com **10 casos de teste** organizados em 4 categorias:
+A suíte conta com **11 casos de teste** organizados em 4 categorias:
 
 | ID | Caso de Teste | O que valida / Como funciona |
 | :--- | :--- | :--- |
@@ -39,6 +39,7 @@ A suíte conta com **10 casos de teste** organizados em 4 categorias:
 | **CT08** | Marcação e proteção por bandeiras | Marca uma célula com bandeira, verifica que `revelarCelula` é bloqueado, desmarca a bandeira, abre a célula e impede marcar célula já aberta. |
 | **CT09** | Derrota ao acionar uma bomba | Revela uma coordenada contendo bomba, valida a transição para `DERROTA`, a revelação das 40 bombas e o bloqueio de novas jogadas. |
 | **CT10** | Vitória ao abrir todas as 212 células seguras | Revela todas as células sem bomba do tabuleiro 18x14 e verifica que `celulasReveladas === 212` e `status === 'VITORIA'`. |
+| **CT11** | Limite máximo de 40 bandeiras | Marca 40 células até zerar `bandeirasRestantes`, tenta marcar uma 41ª célula verificando o erro e a preservação do tabuleiro, e remove uma bandeira para marcar outra célula com sucesso. |
 
 ---
 
@@ -48,7 +49,7 @@ O arquivo `src/campoMinado.js` usa `module.exports` para exportar `{ CampoMinado
 
 - `new CampoMinado(linhas = 18, colunas = 14, bombas = 40)`: lança erro se algum valor for diferente.
 - Propriedades da instância: `linhas`, `colunas`, `totalBombas`, `totalCelulasSeguras` (212), `tabuleiro` (matriz 18x14), `celulasReveladas`, `bandeirasRestantes` e `status` (`'EM_ANDAMENTO'`, `'VITORIA'` ou `'DERROTA'`).
-- Cada célula do `tabuleiro` tem `temBomba`, `revelada` e `bombasVizinhas`.
+- Cada célula do `tabuleiro` tem `temBomba`, `revelada`, `comBandeira` e `bombasVizinhas`.
 - `distribuirBombasAleatoriamente(linhaSegura, colunaSegura)`: sorteia as 40 bombas, e a célula informada (opcional) nunca recebe bomba.
 - `definirPosicoesBombas(lista)`: recebe 40 objetos `{ linha, coluna }` sem repetição.
 - `contarBombasNoTabuleiro()`, `revelarCelula(linha, coluna)` e `alternarBandeira(linha, coluna)` (retorna `true` se ficou com bandeira e `false` se foi removida).
